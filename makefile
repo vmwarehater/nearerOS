@@ -18,6 +18,14 @@ run-disk:
 		-drive if=none,file=image.img,format=raw,id=hd0 \
   		-device virtio-blk-device,drive=hd0 \
 		-serial mon:stdio
+run-disk-debug:
+	make build-disk
+	qemu-system-aarch64 -bios resources/UEFI/QEMU_EFI.fd \
+		-machine virt -cpu cortex-a57 -m 1G -device ramfb -device usb-ehci -device usb-kbd -display sdl \
+		-drive if=none,file=image.img,format=raw,id=hd0 \
+  		-device virtio-blk-device,drive=hd0 \
+		-serial mon:stdio \
+		-s -S
 clean:
 	cd kernel && make clean
 	cd loader && make clean
