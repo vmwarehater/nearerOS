@@ -2,8 +2,6 @@
 #include "../abs/uartabs.h"
 
 
-
-
 /*
     nearerOS Exception Handler
     Copyright Najib Ahmed, All Rights Reserved

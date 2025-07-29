@@ -2,6 +2,7 @@
 #include "brd/uart.h"
 #include "abs/uartabs.h"
 #include "arch/exceptions.h"
+#include "arch/dumpreg.h"
 #include "rt/runtime.h"
 #include "ert/exruntime.h"
 /*
@@ -13,13 +14,15 @@
 // needed stuff for clang
 void __chkstk(){};
 
-
+extern void kLoaderEntry();
 void kEntry(){
     absWriteStringIntoUart("Successfully entered nearerOS kernel\n");
     arSetupExceptions();
-
+    arDumpSystemRegisters();
     brdWriteCharacterIntoUart('\n');
     absWriteStringIntoUart("\n\nnearerOS UART Shell\nCopyright Najib Ahmed, All Rights Reserved\n\n");
+    ertPrintHexadecimalStatusIntoUART("poo", 0x0123456789);
+    //ertCheckEveryBitOfTheHexadecimal(0x0123456789);
     while(1){
         absWriteStringIntoUart("Test Shell> ");
         char buffer[512];

@@ -14,8 +14,8 @@
 
 
 void ertPrintStatusIntoUART(char* message, uint64_t status);
-
-
+void ertPrintHexadecimalStatusIntoUART(char* message, uint64_t status);
+void ertCheckEveryBitOfTheHexadecimal(uint64_t hexadecimal);
 
 
 

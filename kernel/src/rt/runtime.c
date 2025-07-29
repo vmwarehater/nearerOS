@@ -1,7 +1,6 @@
 #include "runtime.h"
 #include <stdint.h>
 
-
 /*
     nearerOS Runtime Functions
     Copyright Najib Ahmed, All Rights Reserved
@@ -105,3 +104,58 @@ bool rtUnsignedIntegerToString(uint64_t integer, char* string, uint16_t size){
     string[index] = '\0';
     return true;
 }
+
+uint64_t rtStringToUnsignedHexadecimal(const char* string){
+    uint64_t result = 0;
+
+    while(*string != '\0'){
+        if(*string >= 48 && *string <= 57 || *string >= 65 && *string <= 70){
+            result *= 16;
+            result += (*string - 48);
+        }
+        string++;
+    }
+    return result;
+}
+
+static inline char ConvertFromHexToCharSingle(uint64_t hex){
+    if(hex >= 0x0 && hex <= 0x9){
+        return 48 + hex;
+    } else return (65 - 10) + hex; /* 65 - 10 because for some fucking reason 65 by itself doens't work */
+    /* probably my fault =( */
+}
+
+bool rtUnsignedHexadecimalToString(uint64_t integer, char* string, uint16_t size){
+    for(int i = 0; i <= size; i++){
+        string[i] = 0x0;
+    }
+    if(integer == 0){
+        if(size <= 2){
+            return false;
+        }
+        string[0] = '0';
+        string[1] = '\0';
+        return true;
+    }
+    uint64_t temp = integer;
+    uint16_t digits = 0;
+    while(temp > 0x0){
+        temp /= 16;
+        digits++;
+    }
+    temp = integer;
+    uint64_t index = 0;
+    for(int i = digits - 1; i >= 0; i--){
+        if(index >= size - 1){
+            break;
+        }
+        uint64_t div = rtCalculatePower(16, i);
+        uint64_t singleDigit = temp / div;
+        string[index] = ConvertFromHexToCharSingle(singleDigit);
+        index++;
+        temp %= div;
+    }
+    string[index] = '\0';
+    return true;
+} 
+

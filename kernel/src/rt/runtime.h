@@ -18,7 +18,7 @@ bool rtSplitStringInTwo(const char* initialString, char* firstHalf, uint16_t fir
 uint64_t rtCalculatePower(uint64_t number, uint64_t power);
 uint64_t rtStringToUnsignedInteger(const char* string);
 bool rtUnsignedIntegerToString(uint64_t integer, char* string, uint16_t size);
-
-
+uint64_t rtStringToUnsignedHexadecimal(const char* string);
+bool rtUnsignedHexadecimalToString(uint64_t integer, char* string, uint16_t size);
 
 #endif
