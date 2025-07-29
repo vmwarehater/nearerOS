@@ -1,0 +1,5 @@
+BOOTAA64.EFI
+BOOTAA64.lib
+*.a
+*.o
+build/
