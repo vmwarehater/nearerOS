@@ -114,8 +114,7 @@ typedef struct _IMAGE_SECTION_HEADER {
 
 
 
-int8_t ldrLoadPortableExecutableFile(const char* path){
-    
+int8_t ldrLoadPortableExecutableFile(LDRGOPINFORMATION gopInfo, const char* path){
     FILE* filep = fopen(path, "r");
     if(filep == NULL) return -1;
     fseek(filep, 0, SEEK_END);
@@ -145,15 +144,24 @@ int8_t ldrLoadPortableExecutableFile(const char* path){
     sectionHeader = GetFirstSectionOfImage(ntheader);
     for(int i = 0; i < ntheader->FileHeader.NumberOfSections; i++){
         printf("%s -> %p\n", sectionHeader->Name, (imageBase + sectionHeader->VirtualAddress));
-        memcpy((void*)(imageBase + sectionHeader->VirtualAddress), 
+        if(strcmp((char*)sectionHeader->Name, ".gopD") == 0){
+            memcpy((void*)(imageBase + sectionHeader->VirtualAddress), 
+                (void*)(&gopInfo), sizeof(LDRGOPINFORMATION));
+        } else {
+            memcpy((void*)(imageBase + sectionHeader->VirtualAddress), 
                 (void*)(file + sectionHeader->PointerToRawData), sectionHeader->SizeOfRawData);
+        }
         sectionHeader++;
+
     }
     void* entry = (void*)(imageBase + ntheader->OptionalHeader.AddressOfEntryPoint);
     printf("Entrypoint Location: %p\n", entry);
     void(*EntryPoint)() = (void (*)())entry;
     free(file);
     printf("Exiting UEFI Boot Services and jumping to the nearerOS Kernel!\n");
+    sleep(1);
+    ST->ConIn->Reset(ST->ConIn, 1);
+    ST->ConOut->Reset(ST->ConOut, 1);
     exit_bs();
     EntryPoint();
     return 0;

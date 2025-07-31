@@ -1,9 +1,13 @@
 section .bss
     align 16
-stack_bottom:
+stackBottom:
     resb 256000
-stack_top:
+stackTop:
 
+section .gopD
+    align 8
+gopInfoBottom:
+    resb 10000 ; size is 48 but i added 2 extra bytes
 
 
 section .text
@@ -11,10 +15,9 @@ section .text
 extern kEntry
 global kLoaderEntry
 kLoaderEntry:
-    mov rsp, stack_top
+    mov rsp, stackTop
+    mov rcx, gopInfoBottom
     call kEntry
 loop:
     jmp loop
-
-
 

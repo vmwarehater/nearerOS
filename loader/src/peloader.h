@@ -12,13 +12,13 @@
 
 
 #include "uefi/uefi.h"
+#include "gop.h"
 
 
 
 
 
-
-int8_t ldrLoadPortableExecutableFile(const char* path);
+int8_t ldrLoadPortableExecutableFile(LDRGOPINFORMATION gopInfo, const char* path);
 
 
 
