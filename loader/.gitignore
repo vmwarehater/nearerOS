@@ -1,5 +1,5 @@
-BOOTAA64.EFI
-BOOTAA64.lib
+BOOTX64.EFI
+BOOTX64.lib
 *.a
 *.o
 build/

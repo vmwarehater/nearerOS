@@ -1,7 +1,7 @@
 # detect architecture
 # MYARCH = $(shell uname -m | sed s,i[3456789]86,ia32, | sed s,amd,x86_,)
 # ifeq ($(ARCH),)
-ARCH = aarch64
+ARCH = x86_64
 
 # get source files, generate object names
 ifeq ($(SRCS),)

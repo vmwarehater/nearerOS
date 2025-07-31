@@ -1,4 +1,4 @@
-TARGET = ../BOOTAA64.EFI
+TARGET = ../BOOTX64.EFI
 include uefi/Makefile
 
 clean:

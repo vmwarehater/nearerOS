@@ -1,1 +1,1 @@
-nearerOS
+nearerOS research operating system

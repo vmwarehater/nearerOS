@@ -3,15 +3,16 @@ target("kernel")
     set_filename("kernel.exe")
     set_targetdir(".")
     add_files("src/*.c", "src/**/*.c");
-    add_files("src/*.S", "src/**/*.S");
-    add_cflags("-target aarch64-none-windows -ffreestanding")
-    add_asflags("-target aarch64-none-windows -ffreestanding -nostdlib -fno-rtti")
-    add_ldflags("/machine:arm64 /subsystem:native /entry:kLoaderEntry /base:0x40000000", {force = true})
+    add_files("src/*.asm", "src/**/*.asm");
+    add_cflags("-target x86_64-none-windows -ffreestanding")
+    add_ldflags("/machine:amd64 /subsystem:native /entry:kLoaderEntry /base:0x20000", {force = true})
 
 
 
 toolchain("clangpe")
-    set_toolset("cc", "clang");
-    set_toolset("as", "clang");
+    set_kind("standalone")
+    set_toolset("cc", "clang")
+    set_toolset("as", "nasm")
+    add_asflags("-f win64", {force = true})
     set_toolset("ld", "lld-link")
 toolchain_end();
